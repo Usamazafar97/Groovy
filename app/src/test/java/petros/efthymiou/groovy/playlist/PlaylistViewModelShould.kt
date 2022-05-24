@@ -24,7 +24,7 @@ class PlaylistViewModelShould: BaseUnitTest() {
 
 
 
-    val repository: PlaylistRepository = mock()
+    private val repository: PlaylistRepository = mock()
     private val playlists = mock<List<Playlist>>()
     private val expected = Result.success(playlists)
     private val exception = RuntimeException("something went wrong")
