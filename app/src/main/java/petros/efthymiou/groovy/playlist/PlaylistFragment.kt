@@ -9,15 +9,38 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_playlist.*
+import okhttp3.OkHttpClient
 import petros.efthymiou.groovy.R
 import petros.efthymiou.groovy.placeholder.Playlist
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class PlaylistFragment : Fragment() {
 
     lateinit var viewModel: PlaylistViewModel
+
+    @Inject
     lateinit var viewModelFactory: PlaylistViewModelFactory
-    private val service = PlaylistService(object : PlaylistAPI{})
-    private val repository = PlaylistRepository(service)
+
+//    private val retrofit = Retrofit.Builder()
+//        .baseUrl("http://localhost:3000/playlists/")
+//        .client(OkHttpClient())
+//        .build()
+//
+//    private val api = retrofit.create(PlaylistAPI::class.java)
+
+//    private val service = PlaylistService(api)
+//    private val service = PlaylistService()  // DI
+
+//    service
+    //    private val service = PlaylistService(PlaylistAPI())
+//    private val repository = PlaylistRepository(service)  // DI
 
 
     private var columnCount = 1
@@ -35,10 +58,18 @@ class PlaylistFragment : Fragment() {
 
         setUpViewModel()
 
+
+        viewModel.loader.observe(this as LifecycleOwner) { loading ->
+            when (loading){
+                true -> loader.visibility = View.VISIBLE
+                else -> loader.visibility = View.GONE
+            }
+        }
+
         viewModel.playlists.observe(this as LifecycleOwner) { playlists ->
-            if (playlists.getOrNull() != null){
-                setUpList(view, playlists.getOrNull()!!)
-            }else{
+            if (playlists.getOrNull() != null) {
+                setUpList(view.findViewById(R.id.playlists_list), playlists.getOrNull()!!)
+            } else {
 
             }
         }
@@ -52,13 +83,12 @@ class PlaylistFragment : Fragment() {
     ) {
         with(view as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
-
             adapter = MyPlaylistRecyclerViewAdapter(playlists)
         }
     }
 
     private fun setUpViewModel() {
-        viewModelFactory = PlaylistViewModelFactory(repository)
+        //viewModelFactory = PlaylistViewModelFactory(repository)  // DI
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlaylistViewModel::class.java)
     }
 

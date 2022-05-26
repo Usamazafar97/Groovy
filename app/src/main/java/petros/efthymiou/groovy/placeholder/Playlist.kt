@@ -5,5 +5,4 @@ class Playlist(
     val name: String,
     val category: String,
     val image: Int
-
 )

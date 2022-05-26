@@ -17,6 +17,7 @@ class PlaylistRepositoryShould : BaseUnitTest() {
 
     private val service: PlaylistService = mock()
     private val playlists = mock<List<Playlist>>()
+    private val playlistRaw = mock<List<PlaylistRaw>>()
     private val exception = RuntimeException("Something went wrong")
 
     @Test
