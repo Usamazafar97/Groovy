@@ -30,6 +30,7 @@ class MyPlaylistRecyclerViewAdapter(
         val item = values[position]
         holder.playlistName.text = item.name
         holder.playlistCategory.text = item.category
+//        holder.playlistImage.setImageResource(item.image)
         holder.playlistImage.setImageResource(item.image)
     }
 
