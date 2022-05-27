@@ -16,6 +16,7 @@ class PlaylistRepositoryShould : BaseUnitTest() {
 
 
     private val service: PlaylistService = mock()
+    //private val mapper: PlaylistMapper = mock()
     private val playlists = mock<List<Playlist>>()
     private val playlistRaw = mock<List<PlaylistRaw>>()
     private val exception = RuntimeException("Something went wrong")
@@ -41,6 +42,13 @@ class PlaylistRepositoryShould : BaseUnitTest() {
     fun propagateErrors() = runBlockingTest {
         val repository = mockFailureCase()
         assertEquals(exception, repository.getPlaylists().first().exceptionOrNull())
+    }
+
+    @Test
+    fun delegateBusinessLogicToMapper() = runBlockingTest{
+        val repository = mockSuccessfulCase()
+
+//        verify(mapper, times(1)).invoke(playlistRaw)
     }
 
     private suspend fun mockFailureCase(): PlaylistRepository {
