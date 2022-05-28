@@ -60,7 +60,7 @@ class PlaylistFeature {
 
         onView(
             allOf(
-                withId(R.id.image),
+                withId(R.id.playlist_image),
                 isDescendantOfA(nthChildOf(withId(R.id.playlists_list), 1))
             )
         )
@@ -82,9 +82,10 @@ class PlaylistFeature {
 
     @Test
     fun displaysRockImageForRockListItems(){
+        Thread.sleep(4000)
         onView(
             allOf(
-                withId(R.id.playlist_category),
+                withId(R.id.playlist_image),
                 isDescendantOfA(nthChildOf(withId(R.id.playlists_list), 0))
             )
         )
@@ -93,7 +94,7 @@ class PlaylistFeature {
 
         onView(
             allOf(
-                withId(R.id.playlist_category),
+                withId(R.id.playlist_image),
                 isDescendantOfA(nthChildOf(withId(R.id.playlists_list), 3))
             )
         )
