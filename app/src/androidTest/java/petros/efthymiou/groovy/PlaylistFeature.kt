@@ -3,6 +3,7 @@ package petros.efthymiou.groovy
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,7 +22,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PlaylistFeature {
-
 
     val mActivityRule = ActivityTestRule(MainActivity::class.java)
         @Rule get
@@ -69,19 +69,19 @@ class PlaylistFeature {
     }
 
     @Test
-    fun displayLoaderWhileFetchingThePlaylists(){
+    fun displayLoaderWhileFetchingThePlaylists() {
         assertDisplayed(R.id.loader)
     }
 
     @Test
-    fun hidesLoader(){
+    fun hidesLoader() {
         Thread.sleep(4000)
 
         assertNotContains(R.id.loader)
     }
 
     @Test
-    fun displaysRockImageForRockListItems(){
+    fun displaysRockImageForRockListItems() {
         Thread.sleep(4000)
         onView(
             allOf(
@@ -100,6 +100,19 @@ class PlaylistFeature {
         )
             .check(matches(withDrawable(R.mipmap.rock)))
             .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun navigateToDetailsScreen() {
+        Thread.sleep(4000)
+        onView(
+            allOf(
+                withId(R.id.playlist_image),
+                isDescendantOfA(nthChildOf(withId(R.id.playlists_list), 0))
+            )
+        ).perform(click())
+
+        assertDisplayed(R.id.playlists_details_root)
     }
 
 
