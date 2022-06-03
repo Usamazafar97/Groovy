@@ -18,12 +18,12 @@ import petros.efthymiou.groovy.playlist.idlingResource
 abstract class BaseUITest {
 
     @Before
-    fun setup(){
+    fun setup() {
         IdlingRegistry.getInstance().register(idlingResource)
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         IdlingRegistry.getInstance().unregister(idlingResource)
     }
 

@@ -4,14 +4,24 @@ import petros.efthymiou.groovy.R
 import petros.efthymiou.groovy.placeholder.Playlist
 import javax.inject.Inject
 
-class PlaylistMapper @Inject constructor(): Function1<List<PlaylistRaw>, List<Playlist>> {
+// This class will convert the playlist Raw to playlist
+class PlaylistMapper @Inject constructor() : Function1<List<PlaylistRaw>, List<Playlist>> {
     override fun invoke(playlistsRaw: List<PlaylistRaw>): List<Playlist> {
-        return playlistsRaw.map {
-            val image = when(it.category){
+
+        // mapping the playlist, while checking the image if its a rock or the simple image, on the basis of the
+        // category
+        return playlistsRaw.map { playlistRaw ->
+            val image = when (playlistRaw.category) {
+
+                // if category is rock the select the rock image
                 "rock" -> R.mipmap.rock
+
+                // in other case, sets the image to default
                 else -> R.mipmap.playlist
             }
-            Playlist(it.id,it.name,it.category, image)
+
+            // setting the playlist with constructor, with the parameters as that of the playlistRaw
+            Playlist(playlistRaw.id, playlistRaw.name, playlistRaw.category, image)
         }
     }
 

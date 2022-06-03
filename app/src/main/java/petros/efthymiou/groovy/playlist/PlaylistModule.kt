@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 val client = OkHttpClient()
 val idlingResource = OkHttp3IdlingResource.create("okhttp", client)
 
+// This module will injects the dependencies
 @Module
 @InstallIn(FragmentComponent::class)
 class PlaylistModule {
@@ -22,7 +23,7 @@ class PlaylistModule {
 
     @Provides
     fun retrofit() = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:3000/playlists/")
+        .baseUrl("http://10.0.2.2:3000/playlists/") // for emulator
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .build()

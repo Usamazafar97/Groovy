@@ -50,7 +50,7 @@ class PlaylistDetailFeature : BaseUITest() {
     }
 
     @Test
-    fun hidesErrorMessage(){
+    fun hidesErrorMessage() {
         navigateToPlaylistDetails(2)
 
         // Due to snack bar have fix delay of 2750 ms

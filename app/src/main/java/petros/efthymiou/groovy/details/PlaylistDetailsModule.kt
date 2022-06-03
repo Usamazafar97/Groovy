@@ -7,7 +7,7 @@ import dagger.hilt.android.components.FragmentComponent
 import petros.efthymiou.groovy.playlist.PlaylistAPI
 import retrofit2.Retrofit
 
-
+// This module will injects the dependencies
 @Module
 @InstallIn(FragmentComponent::class)
 class PlaylistDetailsModule {
