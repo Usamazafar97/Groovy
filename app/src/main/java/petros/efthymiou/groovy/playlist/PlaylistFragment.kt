@@ -58,10 +58,7 @@ class PlaylistFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_playlist, container, false)
 
         setUpViewModel()
-
-
         observeLoader()
-
         observePlaylists(view)
 
         return view

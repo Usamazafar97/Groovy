@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_playlist_detail.*
 import petros.efthymiou.groovy.R
@@ -34,17 +35,31 @@ class PlaylistDetailFragment : Fragment() {
 
         setUpViewModel()
         viewModel.getPlaylistDetails(id)
-        observeLiveData()
+        observePlaylistDetails()
+        observeLoader()
 
         return view
     }
 
-    private fun observeLiveData() {
+    private fun observeLoader() {
+        viewModel.loader.observe(this as LifecycleOwner) { loading ->
+            when (loading) {
+                true -> details_loader.visibility = View.VISIBLE
+                else -> details_loader.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun observePlaylistDetails() {
         viewModel.playlistDetails.observe(this as LifecycleOwner) { playlistDetails ->
             if (playlistDetails.getOrNull() != null) {
                 setUpUI(playlistDetails)
             } else {
-                print("Here")
+                Snackbar.make(
+                    playlists_details_root,
+                    R.string.generic_error,
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }

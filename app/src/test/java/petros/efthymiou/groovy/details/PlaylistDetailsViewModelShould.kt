@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import petros.efthymiou.groovy.utils.BaseUnitTest
+import petros.efthymiou.groovy.utils.captureValues
 import petros.efthymiou.groovy.utils.getValueForTest
 import java.lang.RuntimeException
 
@@ -27,6 +28,7 @@ class PlaylistDetailsViewModelShould : BaseUnitTest() {
     @Test
     fun getPlaylistDetailsFromService() = runBlockingTest{
         mockSuccessfulCase()
+        viewModel.getPlaylistDetails(id)
 
         viewModel.playlistDetails.getValueForTest()
 
@@ -37,6 +39,7 @@ class PlaylistDetailsViewModelShould : BaseUnitTest() {
     fun emitPlaylistDetailsFromService() = runBlockingTest{
 
         mockSuccessfulCase()
+        viewModel.getPlaylistDetails(id)
 
         assertEquals(expected, viewModel.playlistDetails.getValueForTest())
     }
@@ -47,6 +50,30 @@ class PlaylistDetailsViewModelShould : BaseUnitTest() {
 
         assertEquals(error, viewModel.playlistDetails.getValueForTest())
 
+    }
+
+
+    @Test
+    fun showLoaderWhileLoading() = runBlockingTest{
+        mockSuccessfulCase()
+        viewModel.loader.captureValues{
+            viewModel.getPlaylistDetails(id)
+            viewModel.playlistDetails.getValueForTest()
+
+            assertEquals(true, values[0])
+        }
+    }
+
+    @Test
+    fun closeLoaderAfterPlaylistDetailsLoad() = runBlockingTest{
+        mockSuccessfulCase()
+
+        viewModel.loader.captureValues{
+            viewModel.getPlaylistDetails(id)
+            viewModel.playlistDetails.getValueForTest()
+
+            assertEquals(false, values.last())
+        }
     }
 
     private suspend fun mockErrorCase() {
@@ -68,6 +95,6 @@ class PlaylistDetailsViewModelShould : BaseUnitTest() {
         )
         viewModel = PlaylistDetailsViewModel(service)
 
-        viewModel.getPlaylistDetails(id)
+
     }
 }
