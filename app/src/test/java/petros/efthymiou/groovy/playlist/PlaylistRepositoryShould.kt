@@ -27,7 +27,6 @@ class PlaylistRepositoryShould : BaseUnitTest() {
         val repository = PlaylistRepository(service,mapper)
 
         repository.getPlaylists()
-
         verify(service, times(1)).fetchPlaylists()
     }
 
@@ -49,7 +48,6 @@ class PlaylistRepositoryShould : BaseUnitTest() {
         val repository = mockSuccessfulCase()
 
         repository.getPlaylists().first()
-
         verify(mapper, times(1)).invoke(playlistsRaw)
     }
 
@@ -59,7 +57,6 @@ class PlaylistRepositoryShould : BaseUnitTest() {
                 emit(Result.failure<List<PlaylistRaw>>(exception))
             }
         )
-
         return PlaylistRepository(service, mapper)
     }
 
@@ -71,7 +68,6 @@ class PlaylistRepositoryShould : BaseUnitTest() {
         )
 
         whenever(mapper.invoke(playlistsRaw)).thenReturn(playlists)
-
         return PlaylistRepository(service, mapper)
     }
 }
